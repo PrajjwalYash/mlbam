@@ -66,19 +66,3 @@ def create_datasplits(training_data, target_variables, split):
     
     # Return the scaled features and targets
     return X_train_scaled, y_train, X_test_scaled, y_test, feature_scaler
-
-# Example usage:
-# Load your training data
-training_data = pd.read_csv('training_data.csv')
-training_data.drop(columns='Unnamed: 0', inplace=True)
-
-# Define lag columns and target variables
-lag_cols = ['lat', 'lon']
-lags = range(1, 5)
-target_variables = ['isc_og_per']
-
-# Create lag features
-training_data = create_lag_features(df=training_data, lags=lags, lag_cols=lag_cols)
-
-# Create train/test splits and scale the data
-X_train_scaled, y_train, X_test_scaled, y_test, feature_scaler = create_datasplits(training_data, target_variables, split=0.2)

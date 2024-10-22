@@ -81,7 +81,6 @@ def evaluate_and_plot_model_with_lat_lon(model, model_name, X_test_scaled, y_tes
     # Save the plot in the 'model_evaluation' folder with the model name
     plot_file_path = f'model_evaluation/{model_name}_predictions_vs_observations.png'
     plt.savefig(plot_file_path)
-    plt.show()
 
     return output, test_r2, test_mae
 
@@ -130,6 +129,5 @@ def plot_feature_importance(model, model_name, feature_names):
     # Save the plot in the 'model_evaluation' folder with the model name
     plot_file_path = f'model_evaluation/{model_name}_feature_importance.png'
     plt.savefig(plot_file_path)
-    plt.show()
 
     return feature_importance_df

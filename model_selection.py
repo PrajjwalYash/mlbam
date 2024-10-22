@@ -168,10 +168,10 @@ def train_knn_regressor_with_grid_search(X_train, y_train):
     print("Best parameters found: ", grid_search.best_params_)
 
     # Create folder 'trained_models_with_lag' if it doesn't exist
-    os.makedirs('trained_models_with_4lag', exist_ok=True)
+    os.makedirs('trained_models_with_lag', exist_ok=True)
 
     # Save the best model to the 'trained_models_with_4lag' folder using pickle
-    model_path = os.path.join('trained_models_with_4lag', 'knn_model.pkl')
+    model_path = os.path.join('trained_models_with_lag', 'knn_model.pkl')
     with open(model_path, 'wb') as f:
         pickle.dump(best_knn_regressor, f)
 

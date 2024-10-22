@@ -2,9 +2,13 @@ import pandas as pd
 import numpy as np
 import os
 import matplotlib.pyplot as plt
-from sklearn.metrics import mean_absolute_percentage_error
 L_I = 0.989
 folder_path = "test_data"
+
+def mean_absolute_percentage_error(y_true, y_pred):
+    """Function to calculate Mean Absolute Percentage Error (MAPE)."""
+    return np.mean(np.abs((y_true - y_pred) / y_true)) * 100
+
 
 def create_lag_features(df, lags, lag_cols):
     for col in lag_cols:
@@ -161,7 +165,7 @@ def ts_prediction_isc_with_mape_and_plot(filename, model, feature_scaler, lag, l
     """
     
     # Load and process the data
-    df1, data_start, data_end = get_data(filename + '_clean.csv', frame_no=29)
+    df1, data_start, data_end = get_data(filename, frame_no=29)
     df1 = get_all_points(df1)
     df1 = get_lat_lon(df1)
     temp, ref = cell_temp_voc(df1)
@@ -193,8 +197,8 @@ def ts_prediction_isc_with_mape_and_plot(filename, model, feature_scaler, lag, l
     df1['pred_isc'] = df1['exp_isc'] * (1 + (df1['isc_og_pred'] / 100))
     
     # Calculate MAPE for Isc vs exp_isc and Isc vs pred_isc
-    mape_exp_isc = mean_absolute_percentage_error(df1['isc'], df1['exp_isc'])
-    mape_pred_isc = mean_absolute_percentage_error(df1['isc'], df1['pred_isc'])
+    mape_exp_isc = np.round(mean_absolute_percentage_error(df1['isc'], df1['exp_isc']),2)
+    mape_pred_isc = np.round(mean_absolute_percentage_error(df1['isc'], df1['pred_isc']),2)
     
     # Extract start and end date from the first and last timestamps
     start_date = df1['Timestamp'].iloc[0].strftime('%d-%b-%Y')
@@ -204,9 +208,9 @@ def ts_prediction_isc_with_mape_and_plot(filename, model, feature_scaler, lag, l
     plt.figure(figsize=(18, 12))  # Increase plot size for better visibility
     plt.plot(df1['Timestamp'][-200:], df1['isc'][-200:], marker='*', label=f'Observed Isc')
     plt.plot(df1['Timestamp'][-200:], df1['exp_isc'][-200:], marker='*', 
-             label=f'SPOOPA predicted Isc (MAPE: {mape_exp_isc:.2f}%)')
+             label=f'SPOOPA predicted Isc (MAPE: {mape_exp_isc}%)')
     plt.plot(df1['Timestamp'][-200:], df1['pred_isc'][-200:], marker='*', 
-             label=f'MLBAM+SPOOPA predicted Isc (MAPE: {mape_pred_isc:.2f}%)')
+             label=f'MLBAM+SPOOPA predicted Isc (MAPE: {mape_pred_isc}%)')
     
     # Set plot labels and title
     plt.xlabel('Timestamp', fontsize=20)
@@ -223,6 +227,6 @@ def ts_prediction_isc_with_mape_and_plot(filename, model, feature_scaler, lag, l
     plt.savefig(plot_file_path)
     
     # Display the plot
-    plt.show()
+    # plt.show()
     
     return df1, df_mlbam
