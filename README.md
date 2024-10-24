@@ -21,3 +21,7 @@ The implementation of MLBAM significantly improves the accuracy of Isc predictio
 ![MLBAM Results](results_mlbam.png)
 
 As shown in the plot above, the MLBAM model accurately predicts Isc values, with the majority of predictions closely matching the observed values.
+
+## Contributors:
+- **[Prajjwal Yash](https://github.com/PrajjwalYash)**
+- **[Prachi Bisht](https://github.com/bisht-prachi)**
